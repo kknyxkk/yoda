@@ -1,0 +1,13 @@
+  - name: Instalando o httpd - REDHAT
+    yum:
+      name: httpd
+      state: present
+      update_cache: yes
+    when: ansible_os_family == "RedHat"
+
+  - name: Instalando o httpd - REDHAT
+    service:
+      name: httpd
+      state: restarted
+    when: ansible_os_family == "RedHat"
+

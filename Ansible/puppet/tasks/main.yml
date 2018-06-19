@@ -1,0 +1,10 @@
+---
+# tasks file for puppet
+- name: Instalando Puppet
+  hosts: all
+  
+  tasks:
+  
+  - include: prerequisitos.yml
+  - include: install_ubuntu.yml
+  - include: install_centos.yml

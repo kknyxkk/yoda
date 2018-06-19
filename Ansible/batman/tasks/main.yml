@@ -1,0 +1,11 @@
+---
+# tasks file for batman
+- name: Install e start Apache
+  hosts: all
+  vars:
+    - texto: "Deploy Funcionando"
+  tasks:
+    - include: prerequisitos.yml
+    - include: install_httpd.yml
+    - include: install_apache.yml
+    - include: deploy.yml

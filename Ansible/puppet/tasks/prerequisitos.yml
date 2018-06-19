@@ -1,0 +1,16 @@
+  - name: Adicionando repositorio - CENTOS
+    yum:
+      name: https://yum.puppet.com/puppet5/puppet5-release-el-7.noarch.rpm
+      state: present
+    when: ansible_os_family == "RedHat"
+
+  - name: Baixando o repositorio - UBUNTU
+    get_url:
+      url: https://apt.puppetlabs.com/puppet5-release-xenial.deb
+      dest: /home/puppet5-release-xenial.deb
+    when: ansible_os_family == "Debian"
+
+  - name: Instalando Repositorio - UBUNTU
+    apt:
+      deb: /home/puppet5-release-xenial.deb
+    when: ansible_os_family == "Debian"

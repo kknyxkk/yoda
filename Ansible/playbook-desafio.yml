@@ -1,0 +1,73 @@
+---
+- name: Playbook de Desafio 1
+  hosts: all
+  tasks:
+
+  - name: Parando nginx
+    service:
+      state: stopped
+      name: nginx
+    ignore_errors: yes
+ 
+  - name: Removendo Nginx - UBUNTU
+    apt:
+      name: "nginx*"
+      state: absent
+      autoremove: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Removendo nginx - CENTOS
+    yum:
+      name: "nginx*"
+      state: absent
+    when: ansible_distribution == "CentOS"
+
+  - name: Instalando Pacotes - UBUNTU
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    with_items:
+      - "apache2"
+      - "libapache2-mod-php7.0"
+      - "php7.0"
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Adicionando Epel
+    yum:
+      name: "epel-release"
+      state: present
+      update_cache: yes
+    when: ansible_distribution == "CentOs"
+
+  - name: Instalando Pacotes - CENTOS
+    yum:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    with_items:
+      - "httpd"
+      - "php"
+    when: ansible_distribution == "CentOS"
+
+  - name: Start Apache - CENTOS
+    service:
+      state: started
+      name: httpd
+    when: ansible_distribution == "CentOS"
+
+  - name: Start Apache - UBUNTU
+    systemd:
+      daemon_reload: yes
+      state: started
+      name: apache2
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Habilitando php7 no Ubuntu
+    command: a2enmod php7.0
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Enviando Arquivo index.html
+    copy:
+      src: index.php
+      dest: /var/www/html

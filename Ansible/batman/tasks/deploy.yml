@@ -1,0 +1,9 @@
+  - name: Aplicacao
+    template:
+      src: ../templates/index.html
+      dest: /var/www/html/index.html
+
+  - name: Baixando uma imagem
+    get_url:
+      url: https://www.ecs-digital.co.uk/hs-fs/hubfs/DevOps-2.png?t=1527523197629&width=646&height=220&name=DevOps-2.png
+      dest: /var/www/html/imagem.png 
